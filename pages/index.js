@@ -1,7 +1,22 @@
 import Head from 'next/head'
+import LineChart from '../components/LineChart';
 import styles from '../styles/Home.module.css'
 
 export default function Home() {
+
+  const createRandomData = () => {
+    let data = [];
+
+    for (let x = 0; x <= 30; x++) {
+      const random = Math.random();
+      const temp = data.length > 0 ? data[data.length - 1].y : 50;
+      const y = random >= 0.45 ? temp + Math.floor(random * 20) : temp - Math.floor(random * 20);
+      data.push({x, y});
+    }
+
+    return data;
+  } 
+
   return (
     <div className={styles.container}>
       <Head>
@@ -20,9 +35,7 @@ export default function Home() {
           Interactive Bitcoin Chart
         </h1>
 
-        <p className={styles.description}>
-          Chart coming soon...
-        </p>
+        <LineChart data={createRandomData()} />
 
         <div className={styles.grid}>
 
