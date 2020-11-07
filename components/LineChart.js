@@ -34,11 +34,15 @@ const LineChart = (props) => {
     }
 
     const makePath = () => {
-        let pathD = "M " + getSvgX(data[0].x) + " " + getSvgX(data[0].y) + " ";
+        let pathD = "M " + getSvgX(data[0].x) + " " + getSvgY(data[0].y) + " ";
+
         pathD += data.map((point, i) => {
             return "L " + getSvgX(point.x) + " " + getSvgY(point.y) + " ";
         });
-        return (<path className={styles.linechart_path} d={pathD} style={{ stroke: color }} />);
+
+        return (
+            <path className={styles.linechart_path} d={pathD} style={{ stroke: color }} />
+        );
     }
 
     const makeAxis = () => {
