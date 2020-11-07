@@ -62,10 +62,7 @@ const LineChart = (props) => {
     }
 
     return (
-        <svg
-            viewBox={`0 0 ${svgWidth} ${svgHeight}`}
-            className={styles.linechart_path}
-        >
+        <svg viewBox={`0 0 ${svgWidth} ${svgHeight}`}>
             {makePath()}
             {makeAxis()}
         </svg>
