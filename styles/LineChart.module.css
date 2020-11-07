@@ -2,3 +2,7 @@
     stroke-width: 3;
     fill: none;
 }
+
+.linechart_axis {
+    stroke: #bdc3c7;
+}

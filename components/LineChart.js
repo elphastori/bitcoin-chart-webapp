@@ -18,7 +18,7 @@ const LineChart = (props) => {
     }
 
     const getMinY = () => {
-        return data.reduce((min, p) => p.y < min ? p.y : min.data[0].y);
+        return data.reduce((min, p) => p.y < min ? p.y : min, data[0].y);
     }
 
     const getMaxY = () => {
@@ -38,7 +38,27 @@ const LineChart = (props) => {
         pathD += data.map((point, i) => {
             return "L " + getSvgX(point.x) + " " + getSvgY(point.y) + " ";
         });
-        return (<path className="linechart_path" d={pathD} style={{ stroke: color }} />);
+        return (<path className={styles.linechart_path} d={pathD} style={{ stroke: color }} />);
+    }
+
+    const makeAxis = () => {
+        const minX = getMinX();
+        const maxX = getMaxX();
+        const minY = getMinY();
+        const maxY = getMaxY();
+
+        return (
+            <g className={styles.linechart_axis}>
+                <line
+                    x1={getSvgX(minX)} y1={getSvgY(minY)}
+                    x2={getSvgX(maxX)} y2={getSvgY(minY)}
+                />
+                <line
+                    x1={getSvgX(minX)} y1={getSvgY(minY)}
+                    x2={getSvgX(minX)} y2={getSvgY(maxY)}
+                />
+            </g>
+        );
     }
 
     return (
@@ -47,6 +67,7 @@ const LineChart = (props) => {
             className={styles.linechart_path}
         >
             {makePath()}
+            {makeAxis()}
         </svg>
     );
 }
