@@ -6,3 +6,10 @@
 .linechart_axis {
     stroke: #bdc3c7;
 }
+
+.linechart_area {
+    padding: 8px;
+    fill: #64B5F6;
+    stroke: none;
+    opacity: .4;
+  }
