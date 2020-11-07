@@ -11,11 +11,11 @@ export default function Home() {
       const random = Math.random();
       const temp = data.length > 0 ? data[data.length - 1].y : 50;
       const y = random >= 0.45 ? temp + Math.floor(random * 20) : temp - Math.floor(random * 20);
-      data.push({x, y});
+      data.push({ x, y });
     }
 
     return data;
-  } 
+  }
 
   return (
     <div className={styles.container}>
@@ -36,10 +36,6 @@ export default function Home() {
         </h1>
 
         <LineChart data={createRandomData()} />
-
-        <div className={styles.grid}>
-
-        </div>
       </main>
 
       <footer className={styles.footer}>
