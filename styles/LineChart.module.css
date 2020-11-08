@@ -24,6 +24,16 @@
     stroke-width: 2;
 }
 
+.linechart_buy_point {
+    fill: blue;
+    stroke-width: 2;
+}
+
+.linechart_sell_point {
+    fill: red;
+    stroke-width: 2;
+}
+
 .linechart_label {
     fill: #64B5F6;
     font-weight: 700;

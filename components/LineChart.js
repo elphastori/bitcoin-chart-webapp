@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import dayjs from 'dayjs';
 import styles from '../styles/LineChart.module.css';
 
 const LineChart = (props) => {
@@ -10,7 +11,8 @@ const LineChart = (props) => {
         pointRadius = 5,
         xLabelSize = 20,
         yLabelSize = 80,
-        onChartHover
+        onChartHover,
+        transactions = []
     } = props;
 
     const [hoverLoc, setHoverLoc] = useState(null);
@@ -166,6 +168,38 @@ const LineChart = (props) => {
         );
     }
 
+    // Make transaction point
+    const makeTransactionPoints = () => {
+
+        const trans = [
+            { d: '2020-10-22', isBuy: true },
+            { d: '2020-11-04', isBuy: false },
+            { d: '2020-10-12', isBuy: true }
+        ];
+
+        const svgData = data.filter(point => trans.find(x => dayjs(x.d).format('MMM DD') === point.d)).map((point, i) => {
+            const t = trans.find(x => dayjs(x.d).format('MMM DD') === point.d);
+
+            return ({
+                svgX: getSvgX(point.x),
+                svgY: getSvgY(point.y),
+                d: point.d,
+                p: point.p,
+                isBuy: t.isBuy
+            });
+        });
+
+        return (
+            svgData.map(point => (<circle
+                className={point.isBuy ? styles.linechart_buy_point : styles.linechart_sell_point }
+                style={{ stroke: color }}
+                r={pointRadius}
+                cx={point.svgX}
+                cy={point.svgY}
+            />))
+        );
+    }
+
     // Make hover line
     const createLine = () => {
         return (
@@ -192,6 +226,7 @@ const LineChart = (props) => {
             {makeLabels()}
             {hoverLoc ? createLine() : null}
             {hoverLoc ? makeActivePoint() : null}
+            {makeTransactionPoints()}
             <style jsx>{`
                 .linechart {
                     padding: 8px;
