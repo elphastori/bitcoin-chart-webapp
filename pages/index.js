@@ -46,6 +46,12 @@ export default function Home() {
     getData();
   }, []);
 
+  const transactions = [
+    { d: '2020-10-22', isBuy: true, amount: 12 },
+    { d: '2020-11-04', isBuy: false, amount: -24 },
+    { d: '2020-10-12', isBuy: true , amount: 36}
+];
+
   return (
     <div className={styles.container}>
       <Head>
@@ -67,10 +73,10 @@ export default function Home() {
         {!fetchingData ? <InfoBox data={data} /> : null }
 
         <div className={styles.popup}>
-          {hoverLoc ? <ToolTip hoverLoc={hoverLoc} activePoint={activePoint} /> : null}
+          {hoverLoc && <ToolTip hoverLoc={hoverLoc} activePoint={activePoint} transactions={transactions} />}
         </div>
 
-        {!fetchingData ? <LineChart data={data} onChartHover={(a, b) => handleChartHover(a, b)} /> : null}
+        {!fetchingData && <LineChart data={data} onChartHover={(a, b) => handleChartHover(a, b)} transactions={transactions} />}
       </main>
 
       <footer className={styles.footer}>

@@ -168,17 +168,10 @@ const LineChart = (props) => {
         );
     }
 
-    // Make transaction point
+    // Make transaction points
     const makeTransactionPoints = () => {
-
-        const trans = [
-            { d: '2020-10-22', isBuy: true },
-            { d: '2020-11-04', isBuy: false },
-            { d: '2020-10-12', isBuy: true }
-        ];
-
-        const svgData = data.filter(point => trans.find(x => dayjs(x.d).format('MMM DD') === point.d)).map((point, i) => {
-            const t = trans.find(x => dayjs(x.d).format('MMM DD') === point.d);
+        const svgData = data.filter(point => transactions.find(x => dayjs(x.d).format('MMM DD') === point.d)).map((point, i) => {
+            const t = transactions.find(x => dayjs(x.d).format('MMM DD') === point.d);
 
             return ({
                 svgX: getSvgX(point.x),
