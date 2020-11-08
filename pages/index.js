@@ -1,21 +1,50 @@
+import React, { useState, useEffect } from 'react';
+import dayjs from 'dayjs';
 import Head from 'next/head'
 import LineChart from '../components/LineChart';
+import ToolTip from '../components/ToolTip';
+import InfoBox from '../components/InfoBox';
 import styles from '../styles/Home.module.css'
 
 export default function Home() {
 
-  const createRandomData = () => {
-    let data = [];
+  const [fetchingData, setFetchingData] = useState(true);
+  const [data, setData] = useState(null);
+  const [hoverLoc, setHoverLoc] = useState(null);
+  const [activePoint, setActivePoint] = useState(null);
 
-    for (let x = 0; x <= 30; x++) {
-      const random = Math.random();
-      const temp = data.length > 0 ? data[data.length - 1].y : 50;
-      const y = random >= 0.45 ? temp + Math.floor(random * 20) : temp - Math.floor(random * 20);
-      data.push({ x, y });
-    }
-
-    return data;
+  const handleChartHover = (hoverLoc, activePoint) => {
+    setHoverLoc(hoverLoc);
+    setActivePoint(activePoint);
   }
+
+  useEffect(() => {
+    const getData = async () => {
+      const url = 'https://api.coindesk.com/v1/bpi/historical/close.json';
+      const r = await fetch(url);
+
+      try {
+        const bitcoinData = await r.json();
+
+        const sortedData = [];
+        let count = 0;
+        for (let date in bitcoinData.bpi) {
+          sortedData.push({
+            d: dayjs(date).format('MMM DD'),
+            p: bitcoinData.bpi[date].toLocaleString('us-EN', { style: 'currency', currency: 'USD' }),
+            x: count, //previous days
+            y: bitcoinData.bpi[date] // numerical price
+          });
+          count++;
+        }
+        setData(sortedData);
+        setFetchingData(false);
+      } catch (e) {
+        console.log(e);
+      }
+    }
+    getData();
+  }, []);
 
   return (
     <div className={styles.container}>
@@ -35,17 +64,18 @@ export default function Home() {
           Interactive Bitcoin Chart
         </h1>
 
-        <LineChart data={createRandomData()} />
+        {!fetchingData ? <InfoBox data={data} /> : null }
+
+        <div className={styles.popup}>
+          {hoverLoc ? <ToolTip hoverLoc={hoverLoc} activePoint={activePoint} /> : null}
+        </div>
+
+        {!fetchingData ? <LineChart data={data} onChartHover={(a, b) => handleChartHover(a, b)} /> : null}
       </main>
 
       <footer className={styles.footer}>
-        <a
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Powered by CoinDesk
-        </a>
+          Powered by&nbsp;
+          <a href="http://www.coindesk.com/price/" target="_blank" rel="noopener noreferrer">CoinDesk</a>
       </footer>
     </div>
   )

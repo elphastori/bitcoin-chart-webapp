@@ -12,4 +12,19 @@
     fill: #64B5F6;
     stroke: none;
     opacity: .4;
-  }
+}
+
+.hoverLine {
+    stroke: #7D95B6;
+    stroke-width: 1;
+}
+
+.linechart_point {
+    fill: #fff;
+    stroke-width: 2;
+}
+
+.linechart_label {
+    fill: #64B5F6;
+    font-weight: 700;
+}
