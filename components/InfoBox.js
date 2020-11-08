@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import dayjs from 'dayjs';
+import relativeTime from 'dayjs/plugin/relativeTime';
 import styles from '../styles/InfoBox.module.css';
+
+dayjs.extend(relativeTime)
 
 const InfoBox = (props) => {
 
@@ -44,7 +47,7 @@ const InfoBox = (props) => {
             { currentPrice ?
                 <div className={styles.leftBox}>
                     <div className={styles.heading}>{currentPrice.toLocaleString('us-EN', { style: 'currency', currency: 'USD' })}</div>
-                    <div className={styles.subtext}>{'Updated ' + dayjs(updatedAt)}</div>
+                    <div className={styles.subtext}>{'Updated ' + dayjs(updatedAt).fromNow()}</div>
                 </div>
                 : null}
             { currentPrice ?
