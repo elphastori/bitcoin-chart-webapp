@@ -157,7 +157,7 @@ const LineChart = (props) => {
     const makeActivePoint = () => {
         return (
             <circle
-                styles={styles.linechart_point}
+                className={styles.linechart_point}
                 style={{ stroke: color }}
                 r={pointRadius}
                 cx={activePoint.svgX}
