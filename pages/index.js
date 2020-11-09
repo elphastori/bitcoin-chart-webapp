@@ -16,9 +16,25 @@ export default function Home() {
   const [fetchingTransactions, setFetchingTransactions] = useState(false);
   const [transactions, setTransactions] = useState([]);
 
+  const [apiKeyId, setApiKeyId] = useState('');
+  const [apiKeySecret, setApiKeySecret] = useState('');
+  const [accountId, setAccountId] = useState('');
+
   const handleChartHover = (hoverLoc, activePoint) => {
     setHoverLoc(hoverLoc);
     setActivePoint(activePoint);
+  }
+
+  const handleApiKeyIdChange = (e) => {
+    setApiKeyId(e.target.value)
+  }
+
+  const handleApiKeySecretChange = (e) => {
+    setApiKeySecret(e.target.value);
+  }
+
+  const handleAccountIdChange = (e) => {
+    setAccountId(e.target.value);
   }
 
   useEffect(() => {
@@ -51,21 +67,18 @@ export default function Home() {
 
   const fetchTransactions = async () => {
     setFetchingTransactions(true);
-    const url = 'https://api.luno.com/api/1/accounts/id/transactions?min_row=1&max_row=40';
+    const url = `http://localhost:5500/api/1/accounts/${accountId}/transactions?min_row=1&max_row=40`;
 
     try {
-      const r = await fetch(url);
+      const r = await fetch(url, { method: 'GET', headers: { 'Authorization': 'Basic ' + btoa(apiKeyId + ":" + apiKeySecret) } });
       const transData = await r.json();
 
-      console.log("transData", transData);
-
-      // const transactions = [
-      //   { d: '2020-10-22', isBuy: true, amount: 12 },
-      //   { d: '2020-11-04', isBuy: false, amount: -24 },
-      //   { d: '2020-10-12', isBuy: true, amount: 36 }
-      // ];
-
-      setTransactions(transData);
+      setTransactions(transData.transactions.map(trans => ({
+        d: dayjs(trans.timestamp).format('YYYY-MM-DD'),
+        isBuy: trans.balance_delta > 0,
+        amount: trans.balance_delta
+      })));
+      
       setFetchingTransactions(false);
     } catch (e) {
       console.log(e);
@@ -100,9 +113,10 @@ export default function Home() {
 
         {!fetchingData && <LineChart data={data} onChartHover={(a, b) => handleChartHover(a, b)} transactions={transactions} />}
 
-        <input type="button" value="Import Luno transactions" />
-        API Key ID: <input type="text" />
-        Secret: <input type="text" />
+        <input type="button" value="Import Luno transactions" onClick={fetchTransactions} />
+        API Key ID: <input type="text" value={apiKeyId} onChange={handleApiKeyIdChange} />
+        Secret: <input type="text" value={apiKeySecret} onChange={handleApiKeySecretChange} />
+        Account: <input type="text" value={accountId} onChange={handleAccountIdChange} />
 
       </main>
 
