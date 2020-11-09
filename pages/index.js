@@ -67,7 +67,7 @@ export default function Home() {
 
   const fetchTransactions = async () => {
     setFetchingTransactions(true);
-    const url = `http://localhost:5500/api/1/accounts/${accountId}/transactions?min_row=1&max_row=40`;
+    const url = `https://luno-proxy.herokuapp.com/api/1/accounts/${accountId}/transactions?min_row=1&max_row=40`;
 
     try {
       const r = await fetch(url, { method: 'GET', headers: { 'Authorization': 'Basic ' + btoa(apiKeyId + ":" + apiKeySecret) } });
@@ -78,7 +78,7 @@ export default function Home() {
         isBuy: trans.balance_delta > 0,
         amount: trans.balance_delta
       })));
-      
+
       setFetchingTransactions(false);
     } catch (e) {
       console.log(e);
@@ -115,7 +115,7 @@ export default function Home() {
 
         <input type="button" value="Import Luno transactions" onClick={fetchTransactions} />
         API Key ID: <input type="text" value={apiKeyId} onChange={handleApiKeyIdChange} />
-        Secret: <input type="text" value={apiKeySecret} onChange={handleApiKeySecretChange} />
+        Secret: <input type="password" value={apiKeySecret} onChange={handleApiKeySecretChange} />
         Account: <input type="text" value={accountId} onChange={handleAccountIdChange} />
 
       </main>
