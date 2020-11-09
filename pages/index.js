@@ -20,6 +20,8 @@ export default function Home() {
   const [apiKeySecret, setApiKeySecret] = useState('');
   const [accountId, setAccountId] = useState('');
 
+  const [snackBarMessage, setSnackBarMessage] = useState('');
+
   const handleChartHover = (hoverLoc, activePoint) => {
     setHoverLoc(hoverLoc);
     setActivePoint(activePoint);
@@ -35,6 +37,11 @@ export default function Home() {
 
   const handleAccountIdChange = (e) => {
     setAccountId(e.target.value);
+  }
+
+  const showSnackBar = (message) => {
+    setSnackBarMessage(message);
+    setTimeout(() => setSnackBarMessage(''), 3000);
   }
 
   useEffect(() => {
@@ -59,7 +66,8 @@ export default function Home() {
         setData(sortedData);
         setFetchingData(false);
       } catch (e) {
-        console.log(e);
+        console.error(e);
+        showSnackBar(e.message)
       }
     }
     getData();
@@ -71,6 +79,10 @@ export default function Home() {
 
     try {
       const r = await fetch(url, { method: 'GET', headers: { 'Authorization': 'Basic ' + btoa(apiKeyId + ":" + apiKeySecret) } });
+
+      if (r.status !== 200)
+        throw new Error("Failed to get your transactions :-(");
+
       const transData = await r.json();
 
       setTransactions(transData.transactions.map(trans => ({
@@ -80,8 +92,13 @@ export default function Home() {
       })));
 
       setFetchingTransactions(false);
+      showSnackBar("Got your luno transactions!")
+      setApiKeyId('');
+      setApiKeySecret('');
+      setAccountId('');
     } catch (e) {
-      console.log(e);
+      console.error(e);
+      showSnackBar(e.message)
     }
   };
 
@@ -101,7 +118,10 @@ export default function Home() {
       </Head>
 
       <main className={styles.main}>
-        <h1 className={styles.description}>
+
+        <div className={snackBarMessage ? styles.snackbarShow : styles.snackbar}>{snackBarMessage}</div>
+
+        <h1 className={styles.description} style={{ marginBottom: '32px' }}>
           Interactive Bitcoin Chart
         </h1>
 
@@ -117,18 +137,23 @@ export default function Home() {
           <h1 className={styles.description}>
             Add your Luno!
           </h1>
+
+          <div className={styles.warningAlert}>
+            <div>Please use a read-only API</div>
+            <div>key for your security</div>
+          </div>
+
           <div>API Key ID: <input type="text" value={apiKeyId} onChange={handleApiKeyIdChange} /></div>
           <div>Secret: <input type="password" value={apiKeySecret} onChange={handleApiKeySecretChange} /></div>
           <div>Account: <input type="text" value={accountId} onChange={handleAccountIdChange} /></div>
           <input
             className={importButtonDisabled ? styles.buttonDisabled : styles.button}
             type="button"
-            value="Import Luno transactions"
+            value="Get transactions"
             onClick={fetchTransactions}
             disabled={importButtonDisabled}
           />
         </div>
-
       </main>
 
       <footer className={styles.footer}>

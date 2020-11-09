@@ -13,6 +13,7 @@ a {
 
 * {
   box-sizing: border-box;
+  outline: none;
 }
 
 input[type=text] {
@@ -35,4 +36,13 @@ input[type=password] {
   border: 1px solid rgb(216, 216, 216);
   transition: border 0.2s ease 0s;
   outline: none;
+}
+
+
+input[type=password]:hover, input[type=password]:focus, input[type=password]:active {
+  border-color: grey;
+}
+
+input[type=text]:hover, input[type=text]:focus, input[type=text]:active {
+  border-color: grey;
 }

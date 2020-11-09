@@ -61,6 +61,7 @@
 .description {
   line-height: 1.5;
   font-size: 1.5rem;
+  color: grey;
 }
 
 .code {
@@ -81,7 +82,16 @@
   margin-top: 3rem;
 }
 
+@media only screen and (min-width: 1400px) {
+  .card {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+  }
+}
+
 .card {
+  background-color: #fff;
   margin: 1rem;
   flex-basis: 45%;
   padding: 1.5rem;
@@ -91,12 +101,6 @@
   border: 1px solid #eaeaea;
   border-radius: 10px;
   transition: color 0.15s ease, border-color 0.15s ease;
-}
-
-.card:hover,
-.card:focus,
-.card:active {
-  border-color: grey;
 }
 
 .card h3 {
@@ -153,4 +157,55 @@
   font-weight: 500;
   border-radius: 7px;
   margin-top: 8px;
+}
+
+.warningAlert {
+  padding: 12px;
+  color: rgb(102, 60, 0);
+  background-color: rgb(255, 244, 229);
+  border-radius: 10px;
+  margin-bottom: 16px;
+}
+
+.snackbar {
+  visibility: hidden; /* Hidden by default. Visible on click */
+}
+
+/* Show the snackbar when clicking on a button (class added with JavaScript) */
+.snackbarShow {
+  visibility: visible;
+  min-width: 250px;
+  margin-left: -125px;
+  background-color: #333;
+  color: #fff;
+  text-align: center;
+  border-radius: 7px;
+  padding: 8px;
+  position: fixed;
+  z-index: 1;
+  left: 50%;
+  top: 16px;
+  -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+  animation: fadein 0.5s, fadeout 0.5s 2.5s;
+}
+
+/* Animations to fade the snackbar in and out */
+@-webkit-keyframes fadein {
+  from {top: 0; opacity: 0;}
+  to {top: 16px; opacity: 1;}
+}
+
+@keyframes fadein {
+  from {top: 0; opacity: 0;}
+  to {top: 16px; opacity: 1;}
+}
+
+@-webkit-keyframes fadeout {
+  from {top: 16px; opacity: 1;}
+  to {top: 0; opacity: 0;}
+}
+
+@keyframes fadeout {
+  from {top: 16px; opacity: 1;}
+  to {top: 0; opacity: 0;}
 }
