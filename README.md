@@ -1,5 +1,7 @@
 # Interactive bitcoin price chart
 
+![React SVG Gif](https://github.com/elphastori/bitcoin-chart/blob/main/preview.gif?raw=true)
+
 Interactive chart to visualize historical bitcoin prices and explore Luno transactions
 
 - Visualize performance of an asset over a set period
