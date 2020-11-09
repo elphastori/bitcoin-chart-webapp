@@ -85,7 +85,7 @@ export default function Home() {
     }
   };
 
-
+  const importButtonDisabled = !(apiKeyId && apiKeySecret && accountId)
 
   return (
     <div className={styles.container}>
@@ -101,7 +101,7 @@ export default function Home() {
       </Head>
 
       <main className={styles.main}>
-        <h1 className={styles.title}>
+        <h1 className={styles.description}>
           Interactive Bitcoin Chart
         </h1>
 
@@ -113,10 +113,21 @@ export default function Home() {
 
         {!fetchingData && <LineChart data={data} onChartHover={(a, b) => handleChartHover(a, b)} transactions={transactions} />}
 
-        <input type="button" value="Import Luno transactions" onClick={fetchTransactions} />
-        API Key ID: <input type="text" value={apiKeyId} onChange={handleApiKeyIdChange} />
-        Secret: <input type="password" value={apiKeySecret} onChange={handleApiKeySecretChange} />
-        Account: <input type="text" value={accountId} onChange={handleAccountIdChange} />
+        <div className={styles.card}>
+          <h1 className={styles.description}>
+            Add your Luno!
+          </h1>
+          <div>API Key ID: <input type="text" value={apiKeyId} onChange={handleApiKeyIdChange} /></div>
+          <div>Secret: <input type="password" value={apiKeySecret} onChange={handleApiKeySecretChange} /></div>
+          <div>Account: <input type="text" value={accountId} onChange={handleAccountIdChange} /></div>
+          <input
+            className={importButtonDisabled ? styles.buttonDisabled : styles.button}
+            type="button"
+            value="Import Luno transactions"
+            onClick={fetchTransactions}
+            disabled={importButtonDisabled}
+          />
+        </div>
 
       </main>
 

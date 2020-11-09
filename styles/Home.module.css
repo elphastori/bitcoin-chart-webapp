@@ -96,8 +96,7 @@
 .card:hover,
 .card:focus,
 .card:active {
-  color: #0070f3;
-  border-color: #0070f3;
+  border-color: grey;
 }
 
 .card h3 {
@@ -120,4 +119,38 @@
     width: 100%;
     flex-direction: column;
   }
+}
+
+.button {
+  background-color: rgba(0,118,255,0.9);
+  border: 1px solid rgba(0,118,255,0.9);
+  color: white;
+  padding: 12px 12px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 1rem;
+  cursor: pointer;
+  font-weight: 500;
+  border-radius: 7px;
+  margin-top: 8px;
+}
+
+.button:hover {
+  background-color: #fff;
+  color: rgba(0,118,255,0.9);;
+}
+
+.buttonDisabled {
+  background-color: rgb(167, 167, 167);
+  border: 1px solid rgb(216, 216, 216);
+  color: white;
+  padding: 12px 12px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 1rem;
+  font-weight: 500;
+  border-radius: 7px;
+  margin-top: 8px;
 }
