@@ -75,7 +75,7 @@ export default function Home() {
 
   const fetchTransactions = async () => {
     setFetchingTransactions(true);
-    const url = `https://luno-proxy.herokuapp.com/api/1/accounts/${accountId}/transactions?min_row=1&max_row=40`;
+    const url = `https://luno-api.herokuapp.com/api/1/accounts/${accountId}/transactions?min_row=1&max_row=40`;
 
     try {
       const r = await fetch(url, { method: 'GET', headers: { 'Authorization': 'Basic ' + btoa(apiKeyId + ":" + apiKeySecret) } });
